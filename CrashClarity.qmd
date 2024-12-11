@@ -524,7 +524,6 @@ ggplot(effect_data, aes(x = weather_conditions)) +
 
 ```
 
-
 ### Logistic Regression for Binary Accident Severity Classification to predict accident severity by rural vs urban areas in certain weather conditions.
 
 A logistic regression model was employed to classify accident severity into binary categories: "Slight" (1) and "Fatal/Serious" (0), using features such as urban or rural area and weather conditions. The model showed a modest reduction in residual deviance (from 91810 to 91030), with an AIC of 91040, suggesting limited improvement over the null model.
@@ -580,7 +579,7 @@ text(x = 0.6, y = 0.2, labels = paste("AUC =", round(auc_value, 3)), col = "blue
 auc_value <- auc(roc_curve)
 ```
 
-Lasso Logistic Regression for Binary Classification of Accident Severity\*\*
+### Lasso Logistic Regression for Binary Classification of Accident Severity
 
 A Lasso logistic regression model was applied to classify accident severity into binary categories ("Slight" vs. "Fatal/Serious") using features such as urban or rural area and weather conditions. The model employed cross-validation to identify the optimal regularization parameter (lambda.min), ensuring reduced overfitting and improved generalizability.
 
@@ -740,4 +739,3 @@ ggplot(top_features, aes(x = reorder(Feature, Coefficient), y = Coefficient, fil
 
 
 ```
-
