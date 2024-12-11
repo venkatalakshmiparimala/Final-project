@@ -1,0 +1,30 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Final Project - Group 11"
+  description: "Road Accident Casuality Analysis"
+  navbar:
+    right:
+      - href: home.qmd
+        text: "Home"
+      - href: about.qmd
+        text: "About"
+      - href:  ResearchQuestions.qmd
+        text: "Research Questions"
+      - href:  CrashClarity.qmd
+        text: "Crash Clarity"
+      - href: project_source_code.qmd
+        text: "Source Code"
+      - href: References.qmd
+        text: "References"
+      - href: contact.qmd
+        text: "Contact"
+
+format:
+  html:
+    theme: Journal
+    toc: true
+    fontsize: 1em
+    linestretch: 1.5

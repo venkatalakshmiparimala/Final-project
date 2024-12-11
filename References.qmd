@@ -1,0 +1,24 @@
+---
+title: ""
+format: html
+editor: visual
+---
+
+The data and insights used in this project are sourced from the following:
+
+Data CSV: - [casualty_statistics.csv](casualty_statistics.csv){download="casualty_statistics.csv"}
+
+
+Click the links above to download the CSV files used for the analysis.
+
+# References
+
+\[1\] Department for Transport, "Road Safety
+Data," data.gov.uk, \[Online\]. Available: [https://www.data.gov.uk/dataset/cb7ae6f0-4be6-49359277-47e5ce24a11f/road-safety-data.](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data)
+\[Accessed: Dec. 11, 2024\].
+
+\[2\]“Canvas Login \| Instructure,” *Gmu.edu*, 2024. https://canvas.gmu.edu/courses/25180/files/7132982?module_item_id=2696644&fd_cookie_set=1 (accessed Dec. 11, 2024).
+
+‌\[3\]“Creating websites with Quarto and GitHub,” *YouTube*. http://www.youtube.com/playlist?list=PLkrJrLs7xfbXcEKhTCKRSr2VXH4yiBeXo (accessed Dec. 11, 2024).
+
+‌

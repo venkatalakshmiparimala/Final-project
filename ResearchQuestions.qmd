@@ -1,0 +1,54 @@
+**RESEARCH QUESTIONS:**
+
+**Research Question 1:**
+
+**What combination of factors most strongly predicts accident severity?\
+Model:** Random forests
+
+**Features:** Weather Conditions
+
+**Target Variable:** Accident severity (categorized as Slight, Serious, and Fatal accidents)
+
+**Objective:** The number of vehicles involved is the strongest predictor of accident severity. Urban or rural area also impacts severity, likely due to differences in traffic patterns and road infrastructure. Road surface conditions and weather conditions play a smaller but notable role in influencing accident severity.
+
+**Insights**: Accidents with more vehicles tend to be more severe, as they involve higher chances of complex collisions and injuries. Urban areas may see higher severity due to dense traffic, while rural areas could have higher speeds leading to severe outcomes. Adverse weather and poor road surface conditions exacerbate accident severity, though their individual contributions are less than the number of vehicles or urban/rural classification.
+
+**Limitations:** The model underperforms for rare cases (fatal and serious accidents), likely due to imbalanced data. Additional factors (e.g., driver behavior, time of day, and speed) could improve predictions.
+
+**Research Question 2:**
+
+**Can the weather conditions predict accident severity?**
+
+**Model:** Multinomial Logistic Regression
+
+**Features:** Weather Conditions
+
+**Target Variable:** Accident severity (categorized as Slight, Serious, and Fatal accidents)
+
+**Objective:** To determine if weather conditions can predict accident severity.
+
+A Slight increase in weather condition values slightly raises the likelihood of higher accident severity. Coefficients for Severity 2 (Serious) and Severity 3 (Slight) suggest weather conditions play a modest role in predicting severity.
+
+**Research Question 3 :**
+
+**Does Urban vs. Rural Areas affect accident severity under different weather conditions ?**
+
+**Model:** Logistic Regression
+
+**Features:** Weather Conditions
+
+**Target Variable:** Accident severity (categorized as Slight, Serious, and Fatal accidents)
+
+**Objective:**
+
+**Influence of Urban vs. Rural Areas**:
+
+How the location type (urban or rural) impacts the likelihood of slight accidents compared to fatal or serious ones.
+
+**Impact of Weather**:
+
+Whether weather conditions have a significant effect on the severity of accidents when combined with urban/rural classification.\
+\
+\
+**Concluded the analysis by continuing the Logistic Regression with Lasso.\
+Logistic Regression Lasso has performed well with most significant variables predicting accident severity.**
