@@ -504,6 +504,7 @@ auc_3 <- auc(roc_curve_3)
 ```
 
 ```{r, echo=FALSE}
+
 library(ggplot2)
 effect_data <- data.frame(
   weather_conditions = seq(min(train_data$weather_conditions), max(train_data$weather_conditions), length.out = 100)
@@ -518,8 +519,8 @@ ggplot(effect_data, aes(x = weather_conditions)) +
   geom_line(aes(y = prob_class3, color = "Class 3")) +
   labs(title = "Effect of Weather Conditions on Accident Severity",
        y = "Probability", x = "Weather Conditions") +
-  theme_minimal() +
   scale_color_manual(values = c("red", "blue", "green"))
+
 
 ```
 ```{r}
