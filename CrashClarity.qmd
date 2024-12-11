@@ -386,7 +386,7 @@ interactive_road_plot
 
 ```
 
-*Random Forest Model to find What combination of factors most strongly predicts accident severity? *
+*Random Forest Model to find What combination of factors most strongly predicts accident severity?*
 
 A Random Forest model was developed to classify accident severity based on features such as weather conditions, road surface conditions, number of vehicles, and urban or rural location. The model, trained on 100 decision trees, achieved robust classification with reasonable AUC values across all severity levels, as visualized in the ROC curves for each class.
 
@@ -443,7 +443,7 @@ for (i in 1:ncol(rf_probabilities)) {
 }
 
 # Visualize feature importance
-varImpPlot(rf_model)
+varImpPlot(rf_model, main = "Feature analysis by Random Forest Model")
 
 
 ```
@@ -453,7 +453,6 @@ varImpPlot(rf_model)
 A multinomial logistic regression model was developed to examine the relationship between accident severity and weather conditions using a cleaned subset of the dataset. The dataset was partitioned into training (80%) and testing (20%) subsets to ensure robust evaluation. The model achieved convergence after 10 iterations, with residual deviance and AIC values of 100785 and 100793, respectively.
 
 The confusion matrix revealed that the model performed well in classifying higher severity levels, achieving an overall accuracy of 76.06%. The coefficients indicate a positive association between weather conditions and accident severity, suggesting that as adverse weather conditions increase, the likelihood of severe accidents also rises. These findings underscore the critical role of weather in road safety and provide insights for preventive measures.
-
 
 *ROC Curve Analysis for Multinomial Logistic Regression Model*
 
@@ -507,12 +506,9 @@ auc_3 <- auc(roc_curve_3)
 
 ```
 
-
-
-
 ### Logistic Regression for Binary Accident Severity Classification to predict accident severity by rural vs uraban areas in certain weather conditions.
 
-A logistic regression model was employed to classify accident severity into binary categories: "Slight" (1) and "Fatal/Serious" (0), using features such as urban or rural area and weather conditions. The model showed a modest reduction in residual deviance (from 91810 to 91030), with an AIC of 91040, suggesting limited improvement over the null model. 
+A logistic regression model was employed to classify accident severity into binary categories: "Slight" (1) and "Fatal/Serious" (0), using features such as urban or rural area and weather conditions. The model showed a modest reduction in residual deviance (from 91810 to 91030), with an AIC of 91040, suggesting limited improvement over the null model.
 
 The ROC curve yielded an AUC value of 0.5498, indicating the model's predictive performance is slightly better than random chance. The negative coefficient for "urban_or_rural_area" suggests that accidents in urban areas are more likely to be classified as "Slight," while the positive coefficient for "weather_conditions" implies a weak association with increased severity. Overall, the model demonstrates minimal predictive capability and requires additional features or refinement to achieve better classification accuracy and practical applicability.
 
@@ -558,8 +554,6 @@ roc_curve <- roc(test_data$binary_severity, probabilities, plot = TRUE, col = "b
 auc_value <- auc(roc_curve)
 ```
 
-
-
 **Lasso Logistic Regression for Binary Classification of Accident Severity**
 
 A Lasso logistic regression model was applied to classify accident severity into binary categories ("Slight" vs. "Fatal/Serious") using features such as urban or rural area and weather conditions. The model employed cross-validation to identify the optimal regularization parameter (lambda.min), ensuring reduced overfitting and improved generalizability.
@@ -586,13 +580,11 @@ lasso_roc <- roc(as.numeric(test_data$binary_severity), lasso_probabilities, plo
 
 ```
 
-
 **Lasso Logistic Regression for Predicting Accident Severity inclusing more variables**
 
 A Lasso logistic regression model was implemented to classify accident severity into binary categories: "Severe" (1) and "Slight" (0). The model utilized key features such as road surface conditions, weather conditions, urban or rural area, and time of day. Cross-validation identified the optimal regularization parameter (lambda.min), ensuring feature selection and preventing over fitting.
 
 The model achieved an AUC of 0.612, which is the highest among all models evaluated, as visualized through the ROC curve. This indicates improved predictive performance and better discriminatory power compared to earlier approaches. Feature coefficients highlighted the importance of road surface conditions and urban/rural areas as significant predictors. While the model demonstrates improved performance, further enhancements could refine its applicability for real-world scenarios.
-
 
 ```{r, echo=FALSE}
 # Load necessary libraries
