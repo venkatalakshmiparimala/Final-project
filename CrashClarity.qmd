@@ -146,7 +146,7 @@ time_band_summary <- road_casualities %>%
 time_band_plot <- ggplot(time_band_summary, aes(x = time_band, y = total_accidents, fill = total_accidents)) +
   geom_bar(stat = "identity", color = "black", alpha = 0.8) +
   labs(
-    title = "Accidents by Time Bands (STATS20)",
+    title = "Accidents by Time Bands ",
     x = "Time Band",
     y = "Number of Accidents"
   ) +
@@ -523,24 +523,7 @@ ggplot(effect_data, aes(x = weather_conditions)) +
 
 
 ```
-```{r}
-library(ggplot2)
-effect_data <- data.frame(
-  weather_conditions = seq(min(train_data$weather_conditions), max(train_data$weather_conditions), length.out = 100)
-)
-effect_data$prob_class1 <- predict(multinom_model, newdata = effect_data, type = "probs")[, 1]
-effect_data$prob_class2 <- predict(multinom_model, newdata = effect_data, type = "probs")[, 2]
-effect_data$prob_class3 <- predict(multinom_model, newdata = effect_data, type = "probs")[, 3]
 
-ggplot(effect_data, aes(x = weather_conditions)) +
-  geom_line(aes(y = prob_class1, color = "Class 1")) +
-  geom_line(aes(y = prob_class2, color = "Class 2")) +
-  geom_line(aes(y = prob_class3, color = "Class 3")) +
-  labs(title = "Effect of Weather Conditions on Accident Severity",
-       y = "Probability", x = "Weather Conditions")  +
-  scale_color_manual(values = c("red", "blue", "green"))
-
-```
 
 ### Logistic Regression for Binary Accident Severity Classification to predict accident severity by rural vs urban areas in certain weather conditions.
 
@@ -583,14 +566,21 @@ logistic_model <- glm(binary_severity ~ urban_or_rural_area + weather_conditions
 probabilities <- predict(logistic_model, newdata = test_data, type = "response")
 
 # Create the ROC curve
-roc_curve <- roc(test_data$binary_severity, probabilities, plot = TRUE, col = "blue", 
+roc_curve <- roc(test_data$binary_severity, probabilities, plot = TRUE, col = "blue",
                  main = "ROC Curve for Binary Classification")
+
+# Compute the AUC
+auc_value <- auc(roc_curve)
+
+# Add the AUC value to the plot
+text(x = 0.6, y = 0.2, labels = paste("AUC =", round(auc_value, 3)), col = "blue", cex = 1.2)
+
 
 # Compute and print AUC
 auc_value <- auc(roc_curve)
 ```
 
-Lasso Logistic Regression for Binary Classification of Accident Severity**
+Lasso Logistic Regression for Binary Classification of Accident Severity\*\*
 
 A Lasso logistic regression model was applied to classify accident severity into binary categories ("Slight" vs. "Fatal/Serious") using features such as urban or rural area and weather conditions. The model employed cross-validation to identify the optimal regularization parameter (lambda.min), ensuring reduced overfitting and improved generalizability.
 
@@ -611,8 +601,18 @@ test_X <- as.matrix(test_data[, c("urban_or_rural_area", "weather_conditions")])
 lasso_probabilities <- predict(lasso_model, newx = test_X, s = "lambda.min", type = "response")
 
 # Evaluate using ROC and AUC
+# Evaluate using ROC and AUC
 lasso_roc <- roc(as.numeric(test_data$binary_severity), lasso_probabilities, plot = TRUE, col = "blue",
                  main = "ROC Curve for Lasso Logistic Regression")
+
+# Compute the AUC value
+lasso_auc <- auc(lasso_roc)
+
+# Add the AUC value as text on the plot
+text(x = 0.6, y = 0.2, labels = paste("AUC =", round(lasso_auc, 3)), col = "blue", cex = 1.2)
+
+# Optionally, add a diagonal line for random guessing
+abline(a = 0, b = 1, col = "gray", lty = 2)
 
 ```
 
@@ -681,13 +681,63 @@ lasso_model <- cv.glmnet(train_X, train_y, family = "binomial", alpha = 1)
 lasso_probabilities <- predict(lasso_model, newx = test_X, s = "lambda.min", type = "response")
 
 # Evaluate using ROC and AUC
+# Plot the ROC curve and display the AUC value
 lasso_roc <- roc(test_y, lasso_probabilities, plot = TRUE, col = "blue",
                  main = "ROC Curve for Lasso Logistic Regression")
+
+# Calculate the AUC value
 lasso_auc <- auc(lasso_roc)
 
-# Feature importance (coefficients)
-coefficients <- coef(lasso_model, s = "lambda.min")
+# Add the AUC value to the plot
+text(x = 0.6, y = 0.2, labels = paste("AUC =", round(lasso_auc, 3)), col = "blue", cex = 1.2)
 
+# Optionally, add a diagonal line for reference
+abline(a = 0, b = 1, col = "gray", lty = 2)
+
+
+# Add the AUC value as text on the plot
+text(x = 0.6, y = 0.2, labels = paste("AUC =", round(lasso_auc, 3)), col = "blue", cex = 1.2)
+
+
+
+# Extract coefficients from the Lasso model
+coefficients <- as.matrix(coef(lasso_model, s = "lambda.min"))  # Convert to a matrix
+
+# Identify non-zero coefficients and corresponding features
+non_zero_indices <- which(coefficients != 0)  # Find non-zero coefficients
+non_zero_coefficients <- coefficients[non_zero_indices]  # Extract non-zero coefficients
+feature_names <- rownames(coefficients)[non_zero_indices]  # Extract corresponding feature names
+
+# Create the feature importance data frame
+feature_importance <- data.frame(
+  Feature = feature_names,
+  Coefficient = as.numeric(non_zero_coefficients)
+)
+
+# Load necessary libraries
+library(plotly)
+
+
+
+# Remove the intercept from the data
+feature_importance <- feature_importance[feature_importance$Feature != "(Intercept)", ]
+
+# Filter top 10 positive and negative coefficients
+top_features <- feature_importance %>%
+  arrange(desc(abs(Coefficient))) %>%  # Sort by absolute coefficient
+  head(11)   
+
+# Create the plot without the intercept
+ggplot(top_features, aes(x = reorder(Feature, Coefficient), y = Coefficient, fill = Coefficient > 0)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  scale_fill_manual(values = c("blue", "red"), labels = c("Negative", "Positive")) +
+  labs(title = "Top Feature Importance from Lasso Logistic ",
+       x = "Features",
+       y = "Coefficient",
+       fill = "Effect") +
+  theme_minimal(base_size = 14)
 
 
 ```
+

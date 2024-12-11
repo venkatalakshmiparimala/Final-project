@@ -251,11 +251,19 @@ weather_plot <- ggplot(weather_summary, aes(
     title = "Accidents by Weather Conditions",
     x = "Weather Conditions",
     y = "Number of Accidents"
-  ) 
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 8), # Rotate and reduce text size
+    plot.title = element_text(size = 14, face = "bold"),
+    axis.title.x = element_text(size = 10),
+    axis.title.y = element_text(size = 10)
+  )
 
 # Make it interactive and use the clean tooltip
 interactive_weather_plot <- ggplotly(weather_plot, tooltip = "text")
 interactive_weather_plot
+
+
 
 
 ```
