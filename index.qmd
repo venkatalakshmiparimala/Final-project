@@ -12,8 +12,6 @@ editor: visual
 
 **KIRAN DABBIRIL**
 
-
-
 ::: {style="text-align: center;"}
 ## **Understanding Road Safety Statistics**
 :::
